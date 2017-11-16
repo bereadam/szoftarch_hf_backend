@@ -4,6 +4,7 @@ from rest_framework import permissions
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from model.models.userdata import UserData
 
 
 class RegisterView(APIView):
@@ -22,6 +23,8 @@ class RegisterView(APIView):
         new_user.username = email
         new_user.set_password(password)
         new_user.save()
+
+        UserData.objects.create(user=new_user)
 
         token = Token.objects.create(user=new_user)
 
