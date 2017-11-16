@@ -3,7 +3,7 @@ from rest_framework import routers
 from api.views.category import CategoryViewSet, SubcategoryView, AddPoiView
 from api.views.poi import PoiViewSet
 from api.views.auth import LoginView, LogoutView, RegisterView
-from api.views.favorites import FavoritePoisView, AddFavoritePoiView
+from api.views.favorites import FavoritePoisView, AddFavoritePoiView, RemoveFavoritePoiView
 
 router = routers.DefaultRouter()
 router.register(r'category', CategoryViewSet)
@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'login$', LoginView.as_view()),
     url(r'favorites$', FavoritePoisView.as_view()),
     url(r'favorite/add/(?P<poiID>[0-9]+)$', AddFavoritePoiView.as_view()),
+    url(r'favorite/remove/(?P<poiID>[0-9]+)$', RemoveFavoritePoiView.as_view())
 ]
