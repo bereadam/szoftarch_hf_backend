@@ -24,7 +24,6 @@ class AddFavoritePoiView(APIView):
             return HttpResponse("Poi does not exist!", status=404)
 
         udata = UserData.get(request.user)
-
         udata.fav_pois.add(poi)
 
         return HttpResponse()
@@ -42,7 +41,6 @@ class RemoveFavoritePoiView(APIView):
             return HttpResponse("Poi does not exist!", status=404)
 
         udata = UserData.get(request.user)
-
         udata.fav_pois.remove(poi)
 
         return HttpResponse()
