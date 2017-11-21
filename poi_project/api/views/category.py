@@ -12,6 +12,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = Category.objects.filter(parent=None)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 
 class SubcategoryView(APIView):
     def post(self, request):
@@ -29,6 +34,7 @@ class SubcategoryView(APIView):
         parent_category.add_subcategory(subcategory)
 
         return Response(CategorySerializer(parent_category).data)
+
 
 class AddPoiView(APIView):
     def post(self, request):
