@@ -3,11 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from model.models.category import Category
 from model.models.poi import Poi
-from api.serializers import CategorySerializer
+from api.serializers import CategorySerializer, PoiSerializer
 from django.http import HttpResponse
 import json
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from api.permissions import EditCategory
+from django.http.response import JsonResponse
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -62,3 +63,20 @@ class AddPoiView(APIView):
         parent_category.add_poi(poi)
 
         return Response(CategorySerializer(parent_category).data)
+
+
+class CategoryWithSubcategoriesAndPois(APIView):
+    def get(self, request, id):
+
+        try:
+            category = Category.objects.get(pk=id)
+        except Category.DoesNotExist:
+            return HttpResponse("Category does not exist", status=404)
+
+        result = {}
+        result['name'] = category.name
+        result['parent'] = CategorySerializer(category.parent).data
+        result['subcategories'] = [CategorySerializer(x).data for x in category.subcategories.all()]
+        result['pois'] = [PoiSerializer(x).data for x in category.pois.all()]
+
+        return JsonResponse(result)

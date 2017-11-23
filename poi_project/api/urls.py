@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from api.views.category import CategoryViewSet, SubcategoryView, AddPoiView
+from api.views.category import CategoryViewSet, SubcategoryView, AddPoiView, CategoryWithSubcategoriesAndPois
 from api.views.poi import PoiViewSet
 from api.views.auth import LoginView, LogoutView, RegisterView
 from api.views.favorites import FavoritePoisView, AddFavoritePoiView, RemoveFavoritePoiView
@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'searchPoi$', PoiSearchView.as_view()),
     url(r'toAdmin/(?P<id>[0-9]+)$', UserToAdmin.as_view()),
     url(r'removeAdmin/(?P<id>[0-9]+)$', UserRemoveAdmin.as_view()),
+    url(r'categorydetails/(?P<id>[0-9]+)$', CategoryWithSubcategoriesAndPois.as_view())
 ]
