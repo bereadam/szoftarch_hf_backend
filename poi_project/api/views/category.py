@@ -6,9 +6,13 @@ from model.models.poi import Poi
 from api.serializers import CategorySerializer
 from django.http import HttpResponse
 import json
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from api.permissions import EditCategory
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = (EditCategory,)
+
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -19,6 +23,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class SubcategoryView(APIView):
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
     def post(self, request):
 
         json_data = json.loads(request.body)
@@ -37,6 +43,8 @@ class SubcategoryView(APIView):
 
 
 class AddPoiView(APIView):
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
     def post(self, request):
 
         json_data = json.loads(request.body)

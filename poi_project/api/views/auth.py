@@ -46,14 +46,16 @@ class LoginView(APIView):
 
         if user is not None:
             token = Token.objects.get_or_create(user=user)[0]
-            return JsonResponse({"sessionID": str(token)})
+            return JsonResponse({
+                "sessionID": str(token),
+                "is_admin": user.is_staff,
+                "is_superuser": user.is_superuser
+            })
 
-        return JsonResponse({"Error": "unauthorized"})
+        return JsonResponse({"Error": "unauthorized"}, status=401)
 
 
 class LogoutView(APIView):
-    queryset = User.objects.all()
-
     def get(self, request):
         request.user.auth_token.delete()
         return HttpResponse()
