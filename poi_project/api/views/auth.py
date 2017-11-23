@@ -28,7 +28,7 @@ class RegisterView(APIView):
 
         token = Token.objects.create(user=new_user)
 
-        return HttpResponse(token)
+        return JsonResponse({"sessionId": str(token)})
 
 
 class LoginView(APIView):
