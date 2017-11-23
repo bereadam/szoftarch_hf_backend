@@ -24,7 +24,11 @@ SECRET_KEY = '01%p5jtm3n64lrvzx_n68ktdl-9b9t28=(gjw*m7tqvew5-3o='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.fuximo.hu',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 
@@ -54,7 +58,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:4200'
+    'localhost:4200',
+    'fuximo.hu'
 )
 
 ROOT_URLCONF = 'poi_project.urls'
@@ -82,8 +87,12 @@ WSGI_APPLICATION = 'poi_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+	'NAME': os.environ.get('DBNAME', ''),
+	'USER': os.environ.get('DBUSER', ''),
+	'PASSWORD': os.environ.get('DBPW', ''),
+	'HOST': os.environ.get('DBHOST', ''),
+	'PORT': os.environ.get('DBPORT', ''),
     }
 }
 
